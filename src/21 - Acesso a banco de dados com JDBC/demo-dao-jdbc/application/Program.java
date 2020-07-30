@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.dao.DaoFactory;
+import model.dao.DepartmentDao;
 import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
@@ -24,14 +25,14 @@ public class Program {
 		
 		System.out.println("\n--Test: seller findByDepartment--");
 		Department department = new Department(2, null);
-		List<Seller> list = sellerDao.findByDepartment(department);
-		for (Seller obj : list) {
+		List<Seller> listSeller = sellerDao.findByDepartment(department);
+		for (Seller obj : listSeller) {
 			System.out.println(obj);
 		}
 		
 		System.out.println("\n--Test: seller findAll--");
-		list = sellerDao.findAll();
-		for (Seller obj : list) {
+		listSeller = sellerDao.findAll();
+		for (Seller obj : listSeller) {
 			System.out.println(obj);
 		}
 		
@@ -50,9 +51,38 @@ public class Program {
 		
 		System.out.println("\n--Test: seller delete--");
 		System.out.println("Enter id for delete test: ");
-		int id = sc.nextInt();
-		sellerDao.deleteById(id);
-		System.out.println("Delete completed");
+		int idSeller = sc.nextInt();
+		sellerDao.deleteById(idSeller);
+		System.out.println("Seller deletion completed");
+		
+		DepartmentDao departmentDao = DaoFactory.createDepartmentDao();
+		
+		System.out.println("\n--Test: department findById--");
+		Department department2 = departmentDao.findById(2);
+		System.out.println(department2);
+		
+		System.out.println("\n--Test: department findAll--");
+		List<Department> listDepartment = departmentDao.findAll();
+		for (Department obj : listDepartment) {
+			System.out.println(obj);
+		}
+		
+		System.out.println("\n--Test: department insert--");
+		Department newDepartment = new Department(null, "Clothes");
+		departmentDao.insert(newDepartment);
+		System.out.println("Inserted! New Id = " + newDepartment.getId());
+		
+		System.out.println("\n--Test: department update--");
+		department = departmentDao.findById(3);
+		department.setName("Music");
+		departmentDao.update(department);
+		System.out.println("Update completed");
+		
+		System.out.println("\n--Test: department delete--");
+		System.out.println("Enter id for delete test: ");
+		int idDepartment = sc.nextInt();
+		departmentDao.deleteById(idDepartment);
+		System.out.println("Department deletion completed");
 		
 		sc.close();
 	}
